@@ -1,0 +1,14 @@
+name: Update on new image
+
+on:
+  registry_package:
+    types: [published]
+
+jobs:
+  info:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo JSON: ${{ toJson(github.event.registry_package) }}
+        echo Name: ${{ github.event.registry_package.container_metadata.tag.name }}
+        echo Digest: ${{ github.event.registry_package.container_metadata.tag.digest }}
