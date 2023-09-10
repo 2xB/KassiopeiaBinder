@@ -1,14 +1,37 @@
 name: Update on new image
 
 on:
-  registry_package:
-    types: [published]
+  schedule:
+    - cron: '*/5 * * * *'
 
 jobs:
   info:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v3
     - run: |
-        echo JSON: ${{ toJson(github.event.registry_package) }}
-        echo Name: ${{ github.event.registry_package.container_metadata.tag.name }}
-        echo Digest: ${{ github.event.registry_package.container_metadata.tag.digest }}
+        # Based on https://stackoverflow.com/a/39376254 by Olli (CC BY-SA 4.0)
+        # INPUT
+
+        OWNER=${{ github.repository_owner }}
+        REPO=${OWNER,,}/kassiopeia/full
+        
+        # Get TOKEN
+        TOKEN=$(curl -s -H "Accept: application/vnd.docker.distribution.manifest.v2+json" \
+                        'https://ghcr.io/token?service=ghcr.io&scope=repository:${REPO}:pull' \
+                | jq -r .token)
+        
+        # GET Digest from v2 API
+        DIGEST=$(curl -s -D - -H "Authorization: Bearer $TOKEN" \
+             https://ghcr.io/v2/$REPO/manifests/latest 2>&1 \
+          | grep docker-content-digest \
+          | cut -d' ' -f2)
+    
+        echo "FROM ghcr.io/${REPO}:${DIGEST}\n" > Dockerfile
+
+        if [[ `git status --porcelain` ]]; then
+          git add .
+          git commit -m "Automatic update by GitHub CI"
+          git push origin main
+        fi
+
