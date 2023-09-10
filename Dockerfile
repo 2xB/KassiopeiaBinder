@@ -1,1 +1,1 @@
-FROM ghcr.io/2xb/kassiopeia/full:main
+FROM ghcr.io/2xb/kassiopeia/full:\n
