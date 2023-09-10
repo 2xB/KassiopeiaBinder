@@ -31,6 +31,8 @@ jobs:
 
         if [[ `git status --porcelain` ]]; then
           git add .
+          git config user.name "GitHub CI"
+          git config user.email "<>"
           git commit -m "Automatic update by GitHub CI"
           git push origin main
         fi
