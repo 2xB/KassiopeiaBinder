@@ -16,7 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-        DIGEST=$(docker manifest inspect ghcr.io/2xb/kassiopeia/full:main | jq -r .config.digest)
+        OWNER=${{ github.repository_owner }}
+        REPO=${OWNER,,}/kassiopeia/full
+        
+        DIGEST=$(docker manifest inspect ghcr.io/${REPO}:main | jq -r .config.digest)
     
         echo "FROM ghcr.io/${REPO}:${DIGEST}" > Dockerfile
 
