@@ -19,6 +19,8 @@ jobs:
       run: |
         OWNER=${{ github.repository_owner }}
         REPO=${OWNER,,}/kassiopeia/full
+
+        docker manifest inspect --verbose ghcr.io/${REPO}:main
         
         DIGEST=$(docker manifest inspect ghcr.io/${REPO}:main | jq -r .config.digest)
     
