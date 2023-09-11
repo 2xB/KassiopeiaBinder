@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-        DIGEST=$(podman manifest inspect ghcr.io/2xb/kassiopeia/full:main | jq -r .config.digest)
+        DIGEST=$(docker manifest inspect ghcr.io/2xb/kassiopeia/full:main | jq -r .config.digest)
     
         echo "FROM ghcr.io/${REPO}:${DIGEST}\n" > Dockerfile
 
