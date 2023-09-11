@@ -20,9 +20,7 @@ jobs:
         OWNER=${{ github.repository_owner }}
         REPO=${OWNER,,}/kassiopeia/full
 
-        docker manifest inspect --verbose ghcr.io/${REPO}:main
-        
-        DIGEST=$(docker manifest inspect ghcr.io/${REPO}:main | jq -r .config.digest)
+        DIGEST=$(docker manifest inspect --verbose ghcr.io/${REPO}:main | jq -r .Descriptor.digest)
     
         echo "FROM ghcr.io/${REPO}@${DIGEST}" > Dockerfile
 
