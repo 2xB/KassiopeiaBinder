@@ -15,7 +15,7 @@ jobs:
     - run: |
         DIGEST=$(docker manifest inspect ghcr.io/2xb/kassiopeia/full:main | jq -r .config.digest)
     
-        echo "FROM ghcr.io/${REPO}:${DIGEST}\n" > Dockerfile
+        echo "FROM ghcr.io/${REPO}:${DIGEST}" > Dockerfile
 
         if [[ `git status --porcelain` ]]; then
           git add .
