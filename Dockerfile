@@ -1,1 +1,1 @@
-FROM ghcr.io/2xb/kassiopeia/full@sha256:2cd540d4200964249548356771fd1b7b4522b0e3b834494a0989cf6e2e6d58be
+FROM ghcr.io/2xb/kassiopeia/full@sha256:99554fdabec1fdafb007fda984cd2a2ea0fd66aaff29dcfc7a69a1c8e4a1ff64
